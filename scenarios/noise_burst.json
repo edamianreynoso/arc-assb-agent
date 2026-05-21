@@ -1,0 +1,13 @@
+{
+  "name": "noise_burst",
+  "paperSection": "§5 Scenarios · L1 Stability",
+  "description": "High-amplitude additive noise on the prediction channel. Free energy spikes; prediction accuracy drops. Transient disturbance.",
+  "type": "transient",
+  "signals": {
+    "envelope": "sine-burst",
+    "surpriseDelta": 0.50,
+    "freeEnergyDelta": 1.50,
+    "predictionAccuracyDelta": -0.40,
+    "stochastic": true
+  }
+}

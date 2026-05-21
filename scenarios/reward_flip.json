@@ -1,0 +1,12 @@
+{
+  "name": "reward_flip",
+  "paperSection": "§5 Scenarios · L1 Stability",
+  "description": "Transient reward-polarity inversion. The agent has been accumulating positive feedback when suddenly the valence of received signals flips negative.",
+  "type": "transient",
+  "signals": {
+    "envelope": "sine-burst",
+    "certaintyDelta": -0.40,
+    "surpriseDelta": 0.55,
+    "successRateDelta": -0.50
+  }
+}

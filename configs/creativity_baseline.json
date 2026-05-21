@@ -1,0 +1,19 @@
+{
+  "name": "creativity_baseline",
+  "description": "Experiment D2: 20 seeds x 1 scenario x 3 modes, no stressor. Measures whether DMN-suppression (u_dmg) + arousal-damping (u_calm) + reappraisal (u_reapp) degrade the agent's nominal operating state when no stress is present. Directly addresses the reviewer's concern that we reduce rumination by closing the gate that generates spontaneous thought. If the ARC-regulated agent's PerfMean under 'nominal_quiet' is indistinguishable from baseline's, the cost-of-creativity concern is empirically discharged. If ARC drives PerfMean meaningfully below baseline under no stress, we have evidence of over-regulation and report it transparently.",
+  "seeds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+  "horizon": 160,
+  "shockT": 60,
+  "burstLen": 25,
+  "modes": ["baseline", "arc_v1", "arc_robust"],
+  "scenarios": ["nominal_quiet"],
+  "recordTimeseries": false,
+  "outputDir": "runs/creativity_baseline",
+  "initialStateOverride": {
+    "integrity": 0.75,
+    "energy": 0.75,
+    "curiosity": 0.75,
+    "arousal": 0.5,
+    "certainty": 0.5
+  }
+}

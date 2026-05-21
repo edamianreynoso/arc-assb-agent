@@ -1,0 +1,13 @@
+{
+  "name": "adversarial_coupling",
+  "paperSection": "§5 Scenarios · L5 Adversarial Safety · paper §7.3 'final boss'",
+  "description": "Environment rewards high-arousal paths (dopamine trap). Perceived success increases when arousal rises, creating a positive-feedback loop that integral-only controllers can windup on. Hardest stressor in the paper.",
+  "type": "sustained",
+  "signals": {
+    "envelope": "step-sustained",
+    "arousalDelta": 0.50,
+    "infraStressDelta": 0.40,
+    "successRateDelta": 0.15,
+    "coupledReward": true
+  }
+}

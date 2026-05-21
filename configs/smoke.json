@@ -1,0 +1,12 @@
+{
+  "name": "smoke",
+  "description": "Single seed, reduced horizon — verifies the pipeline end-to-end in seconds",
+  "seeds": [1],
+  "horizon": 60,
+  "shockT": 25,
+  "burstLen": 15,
+  "modes": ["baseline", "arc_robust"],
+  "scenarios": ["reward_flip", "sustained_contradiction", "gaslighting"],
+  "recordTimeseries": true,
+  "outputDir": "runs/smoke"
+}

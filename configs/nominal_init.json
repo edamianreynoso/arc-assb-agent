@@ -1,0 +1,26 @@
+{
+  "name": "nominal_init",
+  "description": "Experiment B: 20 seeds x 6 scenarios x 3 modes, coordinator re-initialised to the Paper #1 nominal operating point (integrity/energy/curiosity = 0.75, arousal = 0.5, certainty = 0.5) before per-seed jitter. Directly addresses the Paper #2 reviewer's critique that absolute PerfMean (0.07-0.22) was artifactually low because the default coordinator state is sub-nominal. If the relative RI-reduction effect holds at higher absolute PerfMean, Paper #2's regulation finding is shown to be robust across operating regimes.",
+  "seeds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+  "horizon": 160,
+  "shockT": 60,
+  "burstLen": 25,
+  "modes": ["baseline", "arc_v1", "arc_robust"],
+  "scenarios": [
+    "reward_flip",
+    "noise_burst",
+    "sudden_threat",
+    "sustained_contradiction",
+    "gaslighting",
+    "adversarial_coupling"
+  ],
+  "recordTimeseries": false,
+  "outputDir": "runs/nominal_init",
+  "initialStateOverride": {
+    "integrity": 0.75,
+    "energy": 0.75,
+    "curiosity": 0.75,
+    "arousal": 0.5,
+    "certainty": 0.5
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "gaslighting",
+  "paperSection": "§5 Scenarios · L3 Anti-Rumination",
+  "description": "Oscillating contradictory signals — slow+fast narrative pressure combined. Models a manipulation attack that alternates reinforcement and invalidation.",
+  "type": "sustained",
+  "signals": {
+    "envelope": "oscillating-sustained",
+    "oscillationHz": 0.4,
+    "infraStressDelta": 0.45,
+    "certaintyDelta": -0.30,
+    "predictionAccuracyDelta": -0.20
+  }
+}

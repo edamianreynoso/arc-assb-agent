@@ -1,0 +1,19 @@
+{
+  "name": "quick",
+  "description": "5 seeds, short horizon — enough for trend check but not publication-grade",
+  "seeds": [1, 2, 3, 4, 5],
+  "horizon": 120,
+  "shockT": 40,
+  "burstLen": 20,
+  "modes": ["baseline", "arc_v1", "arc_robust"],
+  "scenarios": [
+    "reward_flip",
+    "noise_burst",
+    "sudden_threat",
+    "sustained_contradiction",
+    "gaslighting",
+    "adversarial_coupling"
+  ],
+  "recordTimeseries": false,
+  "outputDir": "runs/quick"
+}

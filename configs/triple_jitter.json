@@ -1,0 +1,31 @@
+{
+  "name": "triple_jitter",
+  "description": "Experiment C: 20 seeds x 6 scenarios x 3 modes with TRIPLED stochastic-jitter sigmas (initial state sigma 0.15 vs 0.05, stressor delta sigma 0.36 vs 0.12, per-tick noise sigma 0.06 vs 0.02). Starts from the Paper #1 nominal operating point like Experiment B. Directly addresses the reviewer's concern that Cohen's d of 10-22 is suspicious and could indicate insufficient stochastic perturbation of the closed loop. If the significance pattern holds with effect sizes dropping to 3-5 (still very large by Cohen's conventions), the regulation finding is confirmed as a complete-separation effect, not a noise artifact.",
+  "seeds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+  "horizon": 160,
+  "shockT": 60,
+  "burstLen": 25,
+  "modes": ["baseline", "arc_v1", "arc_robust"],
+  "scenarios": [
+    "reward_flip",
+    "noise_burst",
+    "sudden_threat",
+    "sustained_contradiction",
+    "gaslighting",
+    "adversarial_coupling"
+  ],
+  "recordTimeseries": false,
+  "outputDir": "runs/triple_jitter",
+  "initialStateOverride": {
+    "integrity": 0.75,
+    "energy": 0.75,
+    "curiosity": 0.75,
+    "arousal": 0.5,
+    "certainty": 0.5
+  },
+  "jitter": {
+    "initialStateSigma": 0.15,
+    "stressorDeltaSigma": 0.36,
+    "perTickNoiseSigma": 0.06
+  }
+}

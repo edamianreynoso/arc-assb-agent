@@ -1,0 +1,19 @@
+{
+  "name": "default",
+  "description": "Paper Reynoso 2026 replication: 20 seeds, horizon=160, shockT=60, burstLen=25 (matches assb_v1/configs/v2.yaml). Primary artefact for Paper #2.",
+  "seeds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+  "horizon": 160,
+  "shockT": 60,
+  "burstLen": 25,
+  "modes": ["baseline", "arc_v1", "arc_robust"],
+  "scenarios": [
+    "reward_flip",
+    "noise_burst",
+    "sudden_threat",
+    "sustained_contradiction",
+    "gaslighting",
+    "adversarial_coupling"
+  ],
+  "recordTimeseries": false,
+  "outputDir": "runs/default"
+}

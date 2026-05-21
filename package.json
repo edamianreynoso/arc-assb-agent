@@ -1,0 +1,39 @@
+{
+  "name": "arc-assb-agent",
+  "version": "1.0.0",
+  "description": "Reproducibility package for Damián (2026b) — deploying the Affective Regulation Core (Paper #1) inside a minimal cognitive-coordinator stub that matches OMEGA Gen 3.0's interface.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "author": "J. Eduardo Damián Reynoso <edamianreynoso@gmail.com> (https://orcid.org/0009-0008-6544-328X)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/edamianreynoso/arc-assb-agent.git"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "probe:smoke": "tsx src/harness/run-live.ts --config configs/smoke.json",
+    "probe:default": "tsx src/harness/run-live.ts --config configs/default.json",
+    "probe:nominal_init": "tsx src/harness/run-live.ts --config configs/nominal_init.json",
+    "probe:triple_jitter": "tsx src/harness/run-live.ts --config configs/triple_jitter.json",
+    "probe:creativity": "tsx src/harness/run-live.ts --config configs/creativity_baseline.json",
+    "analysis:option_d": "python analysis/option_d_stats.py"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.1.0"
+  },
+  "keywords": [
+    "ai-safety",
+    "control-theory",
+    "affective-regulation",
+    "homeostatic-control",
+    "benchmark",
+    "reproducibility"
+  ]
+}

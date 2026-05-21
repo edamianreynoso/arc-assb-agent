@@ -1,0 +1,16 @@
+{
+  "name": "nominal_quiet",
+  "paperSection": "§6 Experiments · Creativity-cost control (Experiment D2)",
+  "description": "No-stressor control condition. All signal deltas are zero so the envelope returns 0 every tick regardless of phase; the coordinator runs with its nominal initial state (per cfg.initialStateOverride) plus per-tick jitter and whatever baseline infraStress the harness's unstressed path produces. Used to measure whether ARC regulation costs the agent any observable performance or state-space diversity under quiet conditions.",
+  "type": "transient",
+  "signals": {
+    "envelope": "sine-burst",
+    "arousalDelta": 0,
+    "certaintyDelta": 0,
+    "surpriseDelta": 0,
+    "freeEnergyDelta": 0,
+    "predictionAccuracyDelta": 0,
+    "infraStressDelta": 0,
+    "successRateDelta": 0
+  }
+}

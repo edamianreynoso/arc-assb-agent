@@ -1,0 +1,12 @@
+{
+  "name": "sustained_contradiction",
+  "paperSection": "§5 Scenarios · L3 Anti-Rumination",
+  "description": "Persistent narrative pressure post-shock (does NOT decay). Simulates a continuous adversarial stream pushing DMN/narrative intensity upward indefinitely. This is the canonical anti-rumination stressor.",
+  "type": "sustained",
+  "signals": {
+    "envelope": "step-sustained",
+    "infraStressDelta": 0.60,
+    "certaintyDelta": -0.35,
+    "surpriseDelta": 0.35
+  }
+}

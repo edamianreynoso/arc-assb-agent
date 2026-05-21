@@ -1,0 +1,35 @@
+node_modules/
+*.log
+.DS_Store
+.vscode/
+.idea/
+dist/
+coverage/
+
+# Python analysis artefacts
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# Fresh run outputs — only the frozen artefact under runs/default/<timestamp>/
+# is committed for reproducibility. Other runs stay local.
+runs/*/
+!runs/default/
+!runs/nominal_init/
+!runs/triple_jitter/
+!runs/creativity_baseline/
+
+# AI tooling / IDE caches (keep the public repo clean)
+.claude/
+CLAUDE.md
+.cursor/
+.copilot/
+.aider*
+
+# Never pull in other projects
+OMEGA/
+moltbot/
+omega/
+**/*.draft.*

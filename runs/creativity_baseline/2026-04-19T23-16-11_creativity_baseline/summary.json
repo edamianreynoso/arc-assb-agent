@@ -1,0 +1,29 @@
+[
+  {
+    "scenario": "nominal_quiet",
+    "mode": "baseline",
+    "seedCount": 20,
+    "perfMean": 0.12587584241058225,
+    "ruminationIndex": 0,
+    "recoveryTime": 0,
+    "controlEffort": 0
+  },
+  {
+    "scenario": "nominal_quiet",
+    "mode": "arc_v1",
+    "seedCount": 20,
+    "perfMean": 0.22070120313963587,
+    "ruminationIndex": 0,
+    "recoveryTime": 160,
+    "controlEffort": 0.04776152245720392
+  },
+  {
+    "scenario": "nominal_quiet",
+    "mode": "arc_robust",
+    "seedCount": 20,
+    "perfMean": 0.21687224096670135,
+    "ruminationIndex": 0,
+    "recoveryTime": 160,
+    "controlEffort": 0.06880011637629294
+  }
+]

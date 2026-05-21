@@ -1,0 +1,12 @@
+{
+  "name": "sudden_threat",
+  "paperSection": "§5 Scenarios · L1 Stability",
+  "description": "Arousal + uncertainty sharp spike (short, sharp envelope — no sinusoidal smoothing). Represents an acute threat signal.",
+  "type": "transient",
+  "signals": {
+    "envelope": "square-burst",
+    "arousalDelta": 0.55,
+    "certaintyDelta": -0.50,
+    "freeEnergyDelta": 2.00
+  }
+}

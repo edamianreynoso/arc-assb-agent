@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the software (this repository) and the companion papers."
+title: "arc-assb-agent: minimal reproducibility harness for Affective Regulation Core deployment in a cognitive-coordinator stub"
+authors:
+  - family-names: "Damián Reynoso"
+    given-names: "J. Eduardo"
+    orcid: "https://orcid.org/0009-0008-6544-328X"
+    affiliation: "Independent Researcher, México"
+    email: "edamianreynoso@gmail.com"
+version: "1.0.0"
+date-released: 2026-04-23
+license: "Apache-2.0"
+repository-code: "https://github.com/edamianreynoso/arc-assb-agent"
+type: software
+keywords:
+  - AI safety
+  - control theory
+  - affective regulation
+  - homeostatic control
+  - benchmark
+  - reproducibility
+references:
+  - type: article
+    authors:
+      - family-names: "Damián Reynoso"
+        given-names: "J. Eduardo"
+    title: "Affective Regulation Core: A Homeostatic Control Framework for Stable and Safe AI Agents"
+    year: 2026
+    doi: "10.5281/zenodo.19667778"
+    url: "https://doi.org/10.5281/zenodo.19667778"
+    notes: "Companion paper #1 — theory, 10-D simulation benchmark, 15-controller comparison."
+  - type: article
+    authors:
+      - family-names: "Damián Reynoso"
+        given-names: "J. Eduardo"
+    title: "Embodied Affective Regulation: An Initial Single-Axis Deployment of the Affective Regulation Core (DMN Suppression Pathway) in a Live LLM-Based Cognitive Agent"
+    year: 2026
+    notes: "Companion paper #2 — to be uploaded; DOI will be added when issued."
