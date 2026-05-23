@@ -31,6 +31,8 @@ Three supplementary experiments from Paper #2 (`Option D`) are included:
 
 ## Quick start
 
+Requires Node.js `20.19+` or `22.12+`.
+
 ```bash
 git clone https://github.com/edamianreynoso/arc-assb-agent.git
 cd arc-assb-agent
