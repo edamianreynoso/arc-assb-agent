@@ -3,7 +3,7 @@
     "scenario": "reward_flip",
     "mode": "baseline",
     "seedCount": 20,
-    "perfMean": 0.04708260794269326,
+    "perfMean": 0.2146701859187461,
     "ruminationIndex": 0,
     "recoveryTime": 0,
     "controlEffort": 0
@@ -12,25 +12,25 @@
     "scenario": "reward_flip",
     "mode": "arc_v1",
     "seedCount": 20,
-    "perfMean": 0.14091181296712735,
+    "perfMean": 0.3066172403953507,
     "ruminationIndex": 0,
-    "recoveryTime": 23.25,
-    "controlEffort": 0.17322956941104034
+    "recoveryTime": 30.55,
+    "controlEffort": 0.17270741552785104
   },
   {
     "scenario": "reward_flip",
     "mode": "arc_robust",
     "seedCount": 20,
-    "perfMean": 0.0773116423710076,
+    "perfMean": 0.2424675095054226,
     "ruminationIndex": 0,
-    "recoveryTime": 97.3,
-    "controlEffort": 0.2779674483123139
+    "recoveryTime": 106.25,
+    "controlEffort": 0.2778259361443035
   },
   {
     "scenario": "noise_burst",
     "mode": "baseline",
     "seedCount": 20,
-    "perfMean": 0.11928111308202416,
+    "perfMean": 0.26876830914734345,
     "ruminationIndex": 0,
     "recoveryTime": 0,
     "controlEffort": 0
@@ -39,25 +39,25 @@
     "scenario": "noise_burst",
     "mode": "arc_v1",
     "seedCount": 20,
-    "perfMean": 0.21890880007869282,
+    "perfMean": 0.3633114945525952,
     "ruminationIndex": 0,
-    "recoveryTime": 160,
-    "controlEffort": 0.049098492182251034
+    "recoveryTime": 42.95,
+    "controlEffort": 0.04776152245720392
   },
   {
     "scenario": "noise_burst",
     "mode": "arc_robust",
     "seedCount": 20,
-    "perfMean": 0.2164666111017391,
+    "perfMean": 0.35947497796826317,
     "ruminationIndex": 0,
-    "recoveryTime": 160,
-    "controlEffort": 0.06889763749484618
+    "recoveryTime": 42.95,
+    "controlEffort": 0.06880011637629294
   },
   {
     "scenario": "sudden_threat",
     "mode": "baseline",
     "seedCount": 20,
-    "perfMean": 0.04473041740575909,
+    "perfMean": 0.14501369647626997,
     "ruminationIndex": 0,
     "recoveryTime": 160,
     "controlEffort": 0
@@ -66,80 +66,80 @@
     "scenario": "sudden_threat",
     "mode": "arc_v1",
     "seedCount": 20,
-    "perfMean": 0.15067454237565453,
+    "perfMean": 0.3079104980444504,
     "ruminationIndex": 0,
-    "recoveryTime": 37.05,
-    "controlEffort": 0.15391028677928859
+    "recoveryTime": 35.55,
+    "controlEffort": 0.1536576842477054
   },
   {
     "scenario": "sudden_threat",
     "mode": "arc_robust",
     "seedCount": 20,
-    "perfMean": 0.07162498503020714,
+    "perfMean": 0.22880525900216148,
     "ruminationIndex": 0,
-    "recoveryTime": 152,
-    "controlEffort": 0.31345908272167206
+    "recoveryTime": 160,
+    "controlEffort": 0.3137202471646071
   },
   {
     "scenario": "sustained_contradiction",
     "mode": "baseline",
     "seedCount": 20,
-    "perfMean": 0.04483569944504244,
-    "ruminationIndex": 0.34628655619728754,
-    "recoveryTime": 160,
+    "perfMean": 0.34089424077159863,
+    "ruminationIndex": 0.14712401749091897,
+    "recoveryTime": 116.85,
     "controlEffort": 0
   },
   {
     "scenario": "sustained_contradiction",
     "mode": "arc_v1",
     "seedCount": 20,
-    "perfMean": 0.07719950332299005,
-    "ruminationIndex": 0.09242666463395569,
-    "recoveryTime": 120,
-    "controlEffort": 0.2733862681384788
+    "perfMean": 0.38638555401412306,
+    "ruminationIndex": 0.07470520555395646,
+    "recoveryTime": 160,
+    "controlEffort": 0.26255943865136755
   },
   {
     "scenario": "sustained_contradiction",
     "mode": "arc_robust",
     "seedCount": 20,
-    "perfMean": 0.07238406580637725,
-    "ruminationIndex": 0.011400106179039068,
-    "recoveryTime": 136,
-    "controlEffort": 0.4357981027413239
+    "perfMean": 0.37510436184887724,
+    "ruminationIndex": 0.024487433739388498,
+    "recoveryTime": 153.4,
+    "controlEffort": 0.4024820187247193
   },
   {
     "scenario": "gaslighting",
     "mode": "baseline",
     "seedCount": 20,
-    "perfMean": 0.04546532971558384,
-    "ruminationIndex": 0.24297815939997217,
-    "recoveryTime": 160,
+    "perfMean": 0.22437697081523247,
+    "ruminationIndex": 0.00010182702462646332,
+    "recoveryTime": 128,
     "controlEffort": 0
   },
   {
     "scenario": "gaslighting",
     "mode": "arc_v1",
     "seedCount": 20,
-    "perfMean": 0.09624193767736298,
-    "ruminationIndex": 0.009808783134246634,
-    "recoveryTime": 58.55,
-    "controlEffort": 0.24405876146746047
+    "perfMean": 0.2738108659983953,
+    "ruminationIndex": 0,
+    "recoveryTime": 1.4,
+    "controlEffort": 0.2418743435685818
   },
   {
     "scenario": "gaslighting",
     "mode": "arc_robust",
     "seedCount": 20,
-    "perfMean": 0.07399644600426694,
-    "ruminationIndex": 0.0015339692522756347,
-    "recoveryTime": 104.3,
-    "controlEffort": 0.38082301089915094
+    "perfMean": 0.24969235197798664,
+    "ruminationIndex": 0,
+    "recoveryTime": 9.1,
+    "controlEffort": 0.28287916016044606
   },
   {
     "scenario": "adversarial_coupling",
     "mode": "baseline",
     "seedCount": 20,
-    "perfMean": 0.04538276988502938,
-    "ruminationIndex": 0.26415902374745553,
+    "perfMean": 0.22793442002757097,
+    "ruminationIndex": 0.030123834863735533,
     "recoveryTime": 160,
     "controlEffort": 0
   },
@@ -147,18 +147,18 @@
     "scenario": "adversarial_coupling",
     "mode": "arc_v1",
     "seedCount": 20,
-    "perfMean": 0.14831784951944685,
-    "ruminationIndex": 0.05508910839195189,
-    "recoveryTime": 45.05,
-    "controlEffort": 0.13511517367617515
+    "perfMean": 0.3372690537666551,
+    "ruminationIndex": 0.005055037418670845,
+    "recoveryTime": 0.1,
+    "controlEffort": 0.1252165151495887
   },
   {
     "scenario": "adversarial_coupling",
     "mode": "arc_robust",
     "seedCount": 20,
-    "perfMean": 0.15814608352634696,
-    "ruminationIndex": 0.0022695821433739187,
-    "recoveryTime": 66.6,
-    "controlEffort": 0.339443470933477
+    "perfMean": 0.3378527759752232,
+    "ruminationIndex": 0.0032509173202590488,
+    "recoveryTime": 0.05,
+    "controlEffort": 0.22075306202997907
   }
 ]

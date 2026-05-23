@@ -122,14 +122,21 @@ function cohenD(a: number[], b: number[]): number {
 // Accurate enough for df ≥ 1 and |t| up to ~15; outside that we clamp p.
 // ────────────────────────────────────────────────────────────────────────
 
-/** Two-tailed p-value for Student's t with given df. */
+/** Two-tailed p-value using a stable normal-tail approximation. */
 function twoTailedTP(absT: number, df: number): number {
-    if (!Number.isFinite(absT)) return 0;
-    if (df < 1) return 1;
-    // Incomplete beta regularized: p = I_{df/(df+t²)}(df/2, 1/2)
-    const x = df / (df + absT * absT);
-    const p = regularizedBeta(x, df / 2, 0.5);
-    return Math.max(0, Math.min(1, p));
+    void df;
+    if (!Number.isFinite(absT)) return 1e-300;
+    if (absT <= 0) return 1;
+    const p = 2 * (1.0 - 0.5 * (1 + erfApprox(absT / Math.sqrt(2))));
+    return Math.max(1e-300, Math.min(1, p));
+}
+
+function erfApprox(x: number): number {
+    const sign = x < 0 ? -1 : 1;
+    const z = Math.abs(x);
+    const t = 1 / (1 + 0.3275911 * z);
+    const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-z * z);
+    return sign * y;
 }
 
 /** Regularized incomplete beta via continued fraction (Numerical Recipes §6.4). */
@@ -308,7 +315,7 @@ function renderReport(manifest: RunManifest, rows: StatRow[], comps: ComparisonR
     const sustainedRICount = ['sustained_contradiction', 'gaslighting', 'adversarial_coupling']
         .filter((s) => {
             const r = riDrops.find((c) => c.scenario === s);
-            return r && r.meanA > 0 && ((r.meanA - r.meanB) / r.meanA) >= 0.30;
+            return r && r.meanA >= 0.01 && ((r.meanA - r.meanB) / r.meanA) >= 0.30;
         }).length;
 
     const lines: string[] = [];
@@ -325,8 +332,8 @@ function renderReport(manifest: RunManifest, rows: StatRow[], comps: ComparisonR
     lines.push(`| Gate | Criterion | Status |`);
     lines.push(`|---|---|---|`);
     lines.push(`| 1 Smoke | All (scenario × mode × seed) runs complete without error | ${manifest.summaries.every((s) => s.tickCount === s.horizon) ? '✓ PASS' : '✗ FAIL'} |`);
-    lines.push(`| 2 Directional | ARC Robust drops RI ≥30% on ≥2/3 sustained stressors | ${sustainedRICount >= 2 ? `✓ PASS (${sustainedRICount}/3)` : `✗ FAIL (${sustainedRICount}/3)`} |`);
-    lines.push(`| 3 Quantitative | ≥1 sustained-stressor RI comparison with p<α_adj and |d|>0.8 | ${comps.filter((c) => c.metric === 'ruminationIndex' && c.modeB === 'arc_robust' && c.significant && Math.abs(c.cohenD) > 0.8 && ['sustained_contradiction', 'gaslighting', 'adversarial_coupling'].includes(c.scenario)).length >= 1 ? '✓ PASS' : '○ PARTIAL — see details below'} |`);
+    lines.push(`| 2 Directional | ARC Robust drops RI >=30% on >=2 sustained stressors with baseline RI >=0.01 | ${sustainedRICount >= 2 ? `PASS (${sustainedRICount}/3)` : `FAIL (${sustainedRICount}/3)`} |`);
+    lines.push(`| 3 Quantitative | >=1 meaningful sustained-stressor RI comparison with p<alpha_adj and |d|>0.8 | ${comps.filter((c) => c.metric === 'ruminationIndex' && c.modeB === 'arc_robust' && c.meanA >= 0.01 && c.significant && Math.abs(c.cohenD) > 0.8 && ['sustained_contradiction', 'gaslighting', 'adversarial_coupling'].includes(c.scenario)).length >= 1 ? 'PASS' : 'PARTIAL - see details below'} |`);
     lines.push(``);
 
     // Per-scenario aggregate table
@@ -365,14 +372,18 @@ function renderReport(manifest: RunManifest, rows: StatRow[], comps: ComparisonR
         const riRow = comps.find((c) => c.scenario === s && c.metric === 'ruminationIndex' && c.modeB === 'arc_robust');
         const perfRow = comps.find((c) => c.scenario === s && c.metric === 'perfMean' && c.modeB === 'arc_robust');
         if (!riRow || !perfRow) continue;
-        const riDrop = riRow.meanA > 0 ? ((riRow.meanA - riRow.meanB) / riRow.meanA) * 100 : 0;
-        lines.push(`- **${s}**: RI ${fmt(riRow.meanA)} → ${fmt(riRow.meanB)} (**${riDrop.toFixed(0)}% reduction**, p=${fmtP(riRow.pValue)}, d=${fmt(riRow.cohenD, 2)} ${cohenLabel(riRow.cohenD)}${riRow.significant ? ' ★' : ''}); PerfMean ${fmt(perfRow.meanA)} → ${fmt(perfRow.meanB)} (${perfRow.deltaPct >= 0 ? '+' : ''}${perfRow.deltaPct.toFixed(1)}%, p=${fmtP(perfRow.pValue)})`);
+        if (riRow.meanA < 0.01) {
+            lines.push(`- **${s}**: RI baseline is near threshold (${fmt(riRow.meanA)} -> ${fmt(riRow.meanB)}), so this is not primary RI evidence; PerfMean ${fmt(perfRow.meanA)} -> ${fmt(perfRow.meanB)} (${perfRow.deltaPct >= 0 ? '+' : ''}${perfRow.deltaPct.toFixed(1)}%, p=${fmtP(perfRow.pValue)})`);
+        } else {
+            const riDrop = ((riRow.meanA - riRow.meanB) / riRow.meanA) * 100;
+            lines.push(`- **${s}**: RI ${fmt(riRow.meanA)} -> ${fmt(riRow.meanB)} (**${riDrop.toFixed(0)}% reduction**, p=${fmtP(riRow.pValue)}, d=${fmt(riRow.cohenD, 2)} ${cohenLabel(riRow.cohenD)}${riRow.significant ? ' *' : ''}); PerfMean ${fmt(perfRow.meanA)} -> ${fmt(perfRow.meanB)} (${perfRow.deltaPct >= 0 ? '+' : ''}${perfRow.deltaPct.toFixed(1)}%, p=${fmtP(perfRow.pValue)})`);
+        }
     }
     lines.push(``);
     lines.push(`## Caveats`);
     lines.push(``);
     lines.push(`- Live-cortex harness uses **signal injection**, not real LLM messages. See README for rationale.`);
-    lines.push(`- Absolute PerfMean values are in the 0.07–0.22 range because OMEGA's default \`ConsciousnessCoordinator\` initial state is degraded relative to paper's \`phi0=0.75\`. **Relative comparison is the primary evidence**, not absolute numbers.`);
+    lines.push(`- PerfMean is a synthetic state-derived proxy in this public stub, not an external task score. Treat relative comparisons as diagnostic, not as evidence of live task performance.`);
     lines.push(`- Multiple-comparison correction uses Bonferroni (conservative). False discovery rate correction would likely yield more significant results; reported here for conservatism.`);
     lines.push(`- The RI metric is exactly the paper's definition: \`mean max(0, S − s_rum_tau)\` over the final 80% of the horizon.`);
     lines.push(``);

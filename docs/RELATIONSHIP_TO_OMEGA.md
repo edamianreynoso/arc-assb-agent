@@ -25,7 +25,7 @@ OMEGA in full form contains:
 * An ego-identity module with a specific persona
 * Commercial-intent sub-systems that are not ready for public release
 
-None of that is required to verify Paper #2's numerical claims. The paper's contribution, scientifically, is the observation that **the ARC closed-loop regulation property transfers from the 10-D abstract simulation of Paper #1 to an agent-level runtime under signal injection**. What makes this observation testable is the *ARC adapter + harness + signal set*, not the host.
+None of that is required to verify this repository's public numerical pipeline. The scientific contribution tested here is narrower than a full OMEGA deployment claim: **the ARC controller can be mapped into an agent-style coordinator interface and evaluated under reproducible signal-injection stressors**. What makes this observation testable is the *ARC adapter + harness + signal set*, not the private host.
 
 Publishing the full OMEGA codebase before its research/commercial path is clear would:
 
@@ -39,9 +39,9 @@ Publishing just the experimental surface, with a transparent stub, is the scient
 
 | Paper #2 claim | Reproduced here? | Evidence |
 |---|---|---|
-| ARC Robust reduces RI by 98–99 % on sustained stressors | ✅ | `npm run probe:default` — within 0.5 % of frozen artefact |
-| Welch *p* < 10⁻¹⁰ on those three contrasts | ✅ | `python analysis/option_d_stats.py` |
-| Cohen's *d* in the 10–22 range | ✅ | same |
+| ARC Robust reduces RI on `sustained_contradiction` and `adversarial_coupling` | ✅ | `npm run probe:default` corrected run |
+| `gaslighting` is near-threshold / mixed under corrected plant dynamics | ✅ | `npm run probe:default` corrected run |
+| Welch/Cohen summary for corrected runs | ✅ | `python analysis/option_d_stats.py` |
 | Pareto complement between ARC v1 and ARC Robust | ✅ | `npm run probe:default` shows both modes |
 | Experiment B: effect invariant to nominal init | ✅ | `npm run probe:nominal_init` |
 | Experiment C: effect robust to 3× stochastic jitter | ✅ | `npm run probe:triple_jitter` |
@@ -62,7 +62,7 @@ Future work will validate ARC against real LLM-authored conversational stressors
 
 ## Methodological argument for what the stub validates
 
-Paper #2 Section 5.5 ("Experiment B - Nominal-init replication") tests whether the RI-reduction signature survives a different coordinator operating point. The public stub is calibrated to the same interface and operating point, so it lets reviewers independently verify the controller, adapter, stressor definitions, metrics, statistics, and frozen numerical claims without needing the private OMEGA runtime.
+Paper #2 Section 5.5 ("Experiment B - Nominal-init replication") tests whether the corrected RI-reduction signature survives a different coordinator operating point. The public stub is calibrated to the same interface and operating point, so it lets reviewers independently verify the controller, adapter, stressor definitions, metrics, statistics, and corrected frozen artefacts without needing the private OMEGA runtime.
 
 Stated differently: the stub validates the public numerical pipeline and the interface contract. It does not prove anything about OMEGA's full emergent behaviour beyond the single-axis signal-injection claim reported in Paper #2. Conversation-level behaviour, live thought-stream dynamics, and full-agent cognition remain separate empirical questions.
 

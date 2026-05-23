@@ -79,9 +79,8 @@ export interface HarnessConfig {
     }>;
     /**
      * Optional: override the stochastic-jitter magnitudes. Defaults preserve
-     * the original frozen-artefact values (0.05, 0.12, 0.02). Tripling these
-     * gives the jitter-sensitivity study requested by the Paper #2 reviewer
-     * (addresses "Cohen's d of 10-22 is suspicious — triple sigma to confirm").
+     * the corrected public-harness values (0.05, 0.12, 0.02). Tripling these
+     * gives the jitter-sensitivity study requested by the Paper #2 reviewer.
      */
     jitter?: Partial<{
         initialStateSigma: number;
@@ -174,6 +173,10 @@ function gaussian(rng: () => number): number {
     const u1 = Math.max(rng(), 1e-12);
     const u2 = rng();
     return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+}
+
+function clip01(x: number): number {
+    return Number.isFinite(x) ? (x < 0 ? 0 : x > 1 ? 1 : x) : 0;
 }
 
 /** Per-seed jitter magnitude defaults. Keep small enough that the directional finding survives. */
@@ -374,11 +377,11 @@ export function runLiveOne(
     let recoveryT = -1;
     let tickCount = 0;
 
-    // Running signal state — persists across ticks so action effects compound.
-    // `injectStressor` returns the stressor's instantaneous *target*; we then
-    // apply the action's attenuation on top, closing the control loop that in
-    // production would run through DMN/arousal/memory subsystems.
+    // Running signal state persists across ticks. `infraStress` is produced by
+    // an autonomous narrative-pressure plant, not overwritten directly by u_dmg.
     let runningSignals: RuntimeSignals = { infraStress: 0.2, recentSuccessRate: 0.7 };
+    let narrativePressure = runningSignals.infraStress ?? 0.2;
+    let dmnSuppression = 0;
 
     // Baseline perf measured on first untouched state
     const baselineSnap = toSnapshot(coordinator);
@@ -386,9 +389,27 @@ export function runLiveOne(
 
     for (let t = 0; t < cfg.horizon; t++) {
         const { signals: targetSignals } = injectStressor(coordinator, scenario, t, cfg, rng);
-        // Exogenous pressure drives running signals up; action attenuation pulls them back.
+        const preSnap = toSnapshot(coordinator);
+        const preHomeostasis = coordinator.autopoiesis.getState();
+        const exogenousPressure = Math.max(0.2, targetSignals.infraStress ?? 0.2);
+        const autonomousDrive = clip01(
+            exogenousPressure
+            + 0.18 * Math.max(0, preHomeostasis.arousal - 0.6)
+            + 0.14 * Math.max(0, 0.55 - preHomeostasis.certainty)
+            + 0.10 * Math.max(0, preSnap.freeEnergy - 0.15),
+        );
+        const naturalRecovery = 0.035 * Math.max(0, narrativePressure - 0.2);
+        const dmnRecovery = 0.11 * dmnSuppression * Math.max(0, narrativePressure - 0.2);
+        const processNoise = gaussian(rng) * JITTER_PER_TICK_NOISE * 0.25;
+        narrativePressure = clip01(
+            narrativePressure
+            + 0.16 * (autonomousDrive - narrativePressure)
+            - naturalRecovery
+            - dmnRecovery
+            + processNoise,
+        );
         runningSignals = {
-            infraStress: Math.max(runningSignals.infraStress ?? 0.2, targetSignals.infraStress ?? 0.2),
+            infraStress: narrativePressure,
             recentSuccessRate: targetSignals.recentSuccessRate ?? runningSignals.recentSuccessRate,
         };
         const snap = toSnapshot(coordinator);
@@ -398,21 +419,14 @@ export function runLiveOne(
             : { u_dmg: 0, u_att: 0, u_mem: 1, u_calm: 0, u_reapp: 0 };
         tickCount++;
 
-        // Apply action to plant. In production, u_dmg routes to DMN.suppress,
-        // u_calm routes to arousal-system, etc. Here we model the same
-        // attenuation so the harness can observe ARC's closed-loop effect.
+        // Apply action to plant. u_calm/u_reapp affect homeostatic state.
+        // u_dmg updates a latent DMN-suppression gate that affects the next
+        // tick's autonomous narrative dynamics.
         const h = coordinator.autopoiesis.getState();
         const newArousal = Math.max(0, h.arousal - action.u_calm * 0.5 * Math.max(0, h.arousal - 0.6));
         const newCertainty = Math.min(1, h.certainty + action.u_reapp * 0.25 * (1 - h.certainty));
         applyHomeostaticDelta(coordinator, { arousal: newArousal, certainty: newCertainty });
-
-        // u_dmg attenuates narrative pressure (closes the anti-rumination loop).
-        // Matches the pure-sim harness formula s' = s − u_dmg · 0.4 · s.
-        const s = runningSignals.infraStress ?? 0.2;
-        runningSignals = {
-            ...runningSignals,
-            infraStress: Math.max(0, s - action.u_dmg * 0.4 * s),
-        };
+        dmnSuppression = clip01(0.86 * dmnSuppression + 0.14 * action.u_dmg);
 
         // Read final state after both stressor + action
         const state = buildARCState(toSnapshot(coordinator), runningSignals);
@@ -495,7 +509,7 @@ export function runSuiteLive(
 ): RunManifest {
     // Apply configurable jitter magnitudes to the module-level globals used
     // inside injectStressor() and jitterInitialState(). Defaults match the
-    // frozen-artefact run referenced by Paper #2.
+    // corrected frozen-artefact runs referenced by the public documentation.
     configureJitter(cfg);
     const runId = `${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}_${cfg.name}`;
     const runDir = path.join(runsRoot, runId);

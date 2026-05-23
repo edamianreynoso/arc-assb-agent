@@ -34,13 +34,12 @@
  *
  * Why the stub is sufficient for Paper #2 reproduction:
  * ------------------------------------------------------
- * Paper #2 validates ARC's closed-loop *regulation* property against injected
- * stressor signals. The regulation effect (98–99% RI reduction on sustained
- * stressors, Cohen's d 11–22) is a property of the ARC controller's feedback
- * structure, not of OMEGA's emergent cognition. If the controller closes the
- * loop correctly on this stub, it closes it correctly on OMEGA. This is
- * demonstrated by Experiment B (Paper #2, §5.5): the RI-reduction signature is
- * invariant to the operating point of the host.
+ * Paper #2 uses this stub to validate the public controller/adapter/harness
+ * pipeline under injected stressor signals. This is an interface-contract and
+ * numerical-reproducibility target, not proof that OMEGA's emergent cognition
+ * behaves the same way. The corrected harness reports two primary RI-positive
+ * stressors plus a near-threshold gaslighting case; full conversational and
+ * hidden-state validation remains future work.
  *
  * What the stub CANNOT do:
  * ------------------------

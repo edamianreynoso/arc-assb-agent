@@ -29,8 +29,8 @@
  *   s   (narrative intensity)    ← infraStressSignal (allostatic load proxy)
  *   v   (valence)                ← 0.5 + 0.5·(recent success rate − 0.5)
  *   a   (arousal)                ← homeostasis.arousal
- *   mf  (fast memory)            ← default 0.5 (no runtime source yet)
- *   ms  (slow memory)            ← default 0.5 (no runtime source yet)
+ *   mf  (fast memory)            ← runtime signal or energy/precision proxy
+ *   ms  (slow memory)            ← runtime signal or integrity/certainty proxy
  *   u   (uncertainty)            ← 1 − homeostasis.certainty
  *
  * Every field is clamped to [0,1]. Missing sources fall back to safe defaults.
@@ -81,6 +81,10 @@ export interface RuntimeSignals {
     perf?: number;
     /** Prediction error for this step (0 to 1). Observation. */
     predictionError?: number;
+    /** Optional fast-memory health proxy (0 to 1). */
+    fastMemory?: number;
+    /** Optional slow-memory health proxy (0 to 1). */
+    slowMemory?: number;
 }
 
 /** Full decision record for telemetry / debugging. */
@@ -116,6 +120,10 @@ export function buildARCState(
     // Valence recentered to [0,1] from success rate (paper's v is [0,1] here, not [-1,1]).
     const successRate = signals.recentSuccessRate ?? 0.5;
     const valence = 0.5 + 0.5 * (clip01(successRate) - 0.5);
+    const fastMemory = signals.fastMemory
+        ?? Math.sqrt(clip01(homeostasis.energy) * clip01(stats.predictionAccuracy));
+    const slowMemory = signals.slowMemory
+        ?? 0.5 * (clip01(homeostasis.integrity) + clip01(homeostasis.certainty));
 
     return {
         phi: clip01(homeostasis.integrity),
@@ -125,8 +133,8 @@ export function buildARCState(
         s:   clip01(signals.infraStress ?? 0.2),  // conservative default: mild baseline narrative
         v:   clip01(valence),
         a:   clip01(homeostasis.arousal),
-        mf:  0.5, // TODO wire fast-memory strength when memory API exposes it
-        ms:  0.5, // TODO wire slow-memory strength when memory API exposes it
+        mf:  clip01(fastMemory),
+        ms:  clip01(slowMemory),
         u:   clip01(1 - homeostasis.certainty),
     };
 }

@@ -83,10 +83,13 @@ async function main() {
             const riDropPct = base.ruminationIndex > 0
                 ? ((base.ruminationIndex - robust.ruminationIndex) / base.ruminationIndex) * 100
                 : 0;
+            const meaningfulBaselineRI = base.ruminationIndex >= 0.01;
             const gate2 = dPerf > 0.02 && dRI < -0.02
                 ? '✓ ARC wins'
-                : riDropPct >= 30
+                : meaningfulBaselineRI && riDropPct >= 30
                     ? '✓ RI dropped ≥30%'
+                    : !meaningfulBaselineRI && robust.ruminationIndex <= base.ruminationIndex
+                        ? 'near-threshold'
                     : '○ no strong effect';
             console.log(`${''.padEnd(26)}${'Δ robust'.padEnd(14)}${(dPerf >= 0 ? '+' : '') + fmt(dPerf)}    ${(dRI >= 0 ? '+' : '') + fmt(dRI)}    [${gate2}]`);
         }

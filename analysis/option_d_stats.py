@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Generate statistical-report tables for the Option-D experimental additions:
-  B (nominal_init), C (triple_jitter), D2 (creativity_baseline).
+Generate statistical-report tables for the default Paper #2 run and the
+Option-D experimental additions:
+  A (default), B (nominal_init), C (triple_jitter), D2 (creativity_baseline).
 
 Reads the manifest.json of each run, computes per-(scenario, mode, metric)
 aggregates plus Welch t-tests and Cohen's d for the primary baseline-vs-ARC
@@ -31,7 +32,9 @@ def welch_t(a: list[float], b: list[float]) -> tuple[float, float, float]:
     vb = sum((x - mb) ** 2 for x in b) / (nb - 1) if nb > 1 else 0.0
     se2 = va / na + vb / nb
     if se2 <= 0:
-        return (float("inf") if ma != mb else 0.0, float("nan"), 0.0)
+        if ma == mb:
+            return (0.0, float("nan"), 1.0)
+        return (float("inf"), float("nan"), 1e-300)
     t = (ma - mb) / math.sqrt(se2)
     num = (va / na + vb / nb) ** 2
     denom = (va * va) / (na * na * (na - 1)) + (vb * vb) / (nb * nb * (nb - 1))
@@ -120,11 +123,12 @@ def main() -> int:
     root = Path(__file__).resolve().parent.parent  # experiments/arc-assb-agent
     runs_dir = root / "runs"
     targets = [
-        ("runs/nominal_init", "B — Nominal Coordinator Init (Paper #1 operating point)"),
-        ("runs/triple_jitter", "C — Triple Jitter Sigma (sensitivity study)"),
-        ("runs/creativity_baseline", "D2 — Creativity Baseline (no stressor)"),
+        ("runs/default", "A - Default corrected harness"),
+        ("runs/nominal_init", "B - Nominal Coordinator Init (Paper #1 operating point)"),
+        ("runs/triple_jitter", "C - Triple Jitter Sigma (sensitivity study)"),
+        ("runs/creativity_baseline", "D2 - Creativity Baseline (no stressor)"),
     ]
-    out_lines = ["# Option-D experimental additions — statistical summary", ""]
+    out_lines = ["# Paper #2 experimental statistical summary", ""]
     for subdir, label in targets:
         base = root / subdir
         if not base.exists():

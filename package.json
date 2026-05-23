@@ -1,7 +1,7 @@
 {
   "name": "arc-assb-agent",
   "version": "1.0.0",
-  "description": "Reproducibility package for Damián (2026b) — deploying the Affective Regulation Core (Paper #1) inside a minimal cognitive-coordinator stub that matches OMEGA Gen 3.0's interface.",
+  "description": "Reproducibility package for Damian (2026b): ARC controller/adapter harness for a minimal cognitive-coordinator stub matching OMEGA Gen 3.0's public interface.",
   "type": "module",
   "license": "Apache-2.0",
   "author": "J. Eduardo Damián Reynoso <edamianreynoso@gmail.com> (https://orcid.org/0009-0008-6544-328X)",

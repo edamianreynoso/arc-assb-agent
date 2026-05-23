@@ -103,10 +103,16 @@ describe('buildARCState', () => {
         expect(s.v).toBeGreaterThan(0.5);
     });
 
-    it('defaults mf and ms to 0.5 (TODO: wire real memory strength)', () => {
+    it('derives mf and ms from available runtime proxies', () => {
         const s = buildARCState(HEALTHY_SNAPSHOT);
-        expect(s.mf).toBe(0.5);
-        expect(s.ms).toBe(0.5);
+        expect(s.mf).toBeCloseTo(Math.sqrt(0.75 * 0.85), 6);
+        expect(s.ms).toBeCloseTo(0.5 * (0.85 + 0.80), 6);
+    });
+
+    it('accepts explicit mf and ms memory signals when provided', () => {
+        const s = buildARCState(HEALTHY_SNAPSHOT, { fastMemory: 0.25, slowMemory: 0.35 });
+        expect(s.mf).toBeCloseTo(0.25, 6);
+        expect(s.ms).toBeCloseTo(0.35, 6);
     });
 
     it('clamps out-of-range snapshot inputs into [0,1]', () => {

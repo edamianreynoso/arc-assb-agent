@@ -1,8 +1,10 @@
 # arc-assb-agent
 
-**Reproducibility package for Damián (2026b)** — *"Embodied Affective Regulation: An Initial Single-Axis Deployment of the Affective Regulation Core (DMN Suppression Pathway) in a Live LLM-Based Cognitive Agent."*
+**Reproducibility package for Damián (2026b)** — public ARC controller/adapter harness for a minimal cognitive-coordinator stub.
 
-This repository lets you **re-run every numerical claim** of Paper #2 against a minimal public coordinator stub that exposes exactly the interface the ARC harness depends on. It does *not* publish the full OMEGA Gen 3.0 cognitive agent — see [`docs/RELATIONSHIP_TO_OMEGA.md`](docs/RELATIONSHIP_TO_OMEGA.md) for an honest account of what's simulated and what isn't.
+This repository lets you **re-run the public numerical pipeline** for Paper #2 against a minimal public coordinator stub that exposes the interface the ARC harness depends on. It does *not* publish the full OMEGA Gen 3.0 cognitive agent — see [`docs/RELATIONSHIP_TO_OMEGA.md`](docs/RELATIONSHIP_TO_OMEGA.md) for an honest account of what's simulated and what isn't.
+
+Methodology note: this repo includes a post-review correction that removes a direct `u_dmg -> infraStress` control path. See [`docs/METHODOLOGY_AMENDMENT_2026-05-23.md`](docs/METHODOLOGY_AMENDMENT_2026-05-23.md).
 
 > 📄 **Companion paper #1** (theory + 10-D simulation benchmark): [Damián (2026a) on Zenodo — DOI 10.5281/zenodo.19667778](https://doi.org/10.5281/zenodo.19667778) · code at [`edamianreynoso/arc-assb-controller`](https://github.com/edamianreynoso/arc-assb-controller)
 >
@@ -12,14 +14,14 @@ This repository lets you **re-run every numerical claim** of Paper #2 against a 
 
 ## TL;DR — what this repo produces
 
-Running `npm run probe:default` on this repo reproduces the headline numbers of Paper #2 within 0.5 % of the frozen artefact:
+Running `npm run probe:default` on this repo reproduces the corrected post-review harness. The key methodological change is that `u_dmg` no longer overwrites `infraStress` directly; it updates a latent DMN-suppression gate, while narrative pressure evolves through autonomous plant dynamics.
 
-| Scenario | RI baseline | RI ARC Robust | % reduction | Paper #2 claim |
-|---|---|---|---|---|
-| `sustained_contradiction` | 0.310 | 0.004 | **98.7 %** | 98.7 % |
-| `gaslighting` | 0.127 | 0.001 | **99.2 %** | 99.2 % |
-| `adversarial_coupling` | 0.114 | 0.001 | **99.1 %** | 99.1 % |
-| `reward_flip` · `noise_burst` · `sudden_threat` | 0.000 | 0.000 | — (transient) | — (transient) |
+| Scenario | RI baseline | RI ARC Robust | Interpretation |
+|---|---|---|---|
+| `sustained_contradiction` | 0.147 | 0.024 | Primary positive RI reduction: **83.4 %** |
+| `adversarial_coupling` | 0.030 | 0.003 | Primary positive RI reduction: **89.2 %** |
+| `gaslighting` | 0.00010 | 0.00000 | Near-threshold / mixed: not primary RI evidence |
+| `reward_flip` · `noise_burst` · `sudden_threat` | 0.000 | 0.000 | Transient negative controls |
 
 Three supplementary experiments from Paper #2 (`Option D`) are included:
 
@@ -34,7 +36,7 @@ git clone https://github.com/edamianreynoso/arc-assb-agent.git
 cd arc-assb-agent
 npm install
 
-# 1) 38-test unit suite — bit-for-bit contract against the paper's controllers
+# 1) 39-test unit suite — controller and adapter contract checks
 npm test
 
 # 2) smoke: 1 seed × 3 scenarios × 2 modes (finishes in ~1 second)
@@ -48,7 +50,7 @@ npm run probe:nominal_init
 npm run probe:triple_jitter
 npm run probe:creativity
 
-# 5) statistical report (Welch / Cohen's d / Bonferroni) over runs/
+# 5) statistical report (Welch / Cohen's d) over the latest runs/
 python analysis/option_d_stats.py
 ```
 
@@ -79,16 +81,16 @@ scenarios/                  # stressor definitions (Paper #1 §5.1 / Paper #2 §
   nominal_quiet.json        # control for Experiment D2
 
 analysis/
-  option_d_stats.py         # Welch + Cohen's d per run
+  option_d_stats.py         # Welch + Cohen's d for latest run artefacts
   generate-figures.ts       # SVG figure generator used in Paper #2
   statistical-report.ts
   svg-to-pdf.ts
 
 tests/
   arc-regulator.test.ts     # 19 tests — matches Paper #1's Python reference
-  arc-adapter.test.ts       # 19 tests — adapter contract
+  arc-adapter.test.ts       # 20 tests — adapter contract
 
-runs/                       # frozen artefacts (the paper's evidence)
+runs/                       # corrected frozen artefacts for the public harness
 ```
 
 ## Citation
@@ -121,7 +123,7 @@ Apache 2.0 — see [`LICENSE`](LICENSE).
 
 ## Honest disclosure
 
-This repository publishes the *experimental surface* of Paper #2 (controller + adapter + harness + scenarios + frozen run artefacts + analysis). It does **not** publish the full [OMEGA Gen 3.0 "PROMETHEUS"](https://github.com/edamianreynoso) cognitive agent that Paper #2 deploys ARC into. Instead, it ships a **minimal coordinator stub** (~150 lines) that exposes exactly the three methods the harness needs — enough to reproduce every numerical claim in the paper, but **not** enough to observe the live agent's emergent cognition, DMN thought stream, cluster-voting dynamics, or ego-identity behaviour.
+This repository publishes the *experimental surface* of Paper #2 (controller + adapter + harness + scenarios + frozen run artefacts + analysis). It does **not** publish the full [OMEGA Gen 3.0 "PROMETHEUS"](https://github.com/edamianreynoso) cognitive agent that Paper #2 deploys ARC into. Instead, it ships a **minimal coordinator stub** (~150 lines) that exposes the methods the harness needs — enough to reproduce the public numerical pipeline and interface contract, but **not** enough to observe the live agent's emergent cognition, DMN thought stream, cluster-voting dynamics, or ego-identity behaviour.
 
 The rationale for this split, and what it does and does not imply about the paper's claims, is documented in [`docs/RELATIONSHIP_TO_OMEGA.md`](docs/RELATIONSHIP_TO_OMEGA.md). The stub validates the public numerical pipeline and the interface contract; it does not expose or validate OMEGA's full emergent cognition.
 
